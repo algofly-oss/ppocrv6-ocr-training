@@ -1,0 +1,23 @@
+Includes PARSeq reference code, Copyright 2022 Darwin Bautista.
+Apache License 2.0. Upstream: https://github.com/baudm/parseq
+Pinned commit: 1902db043c029a7e03a3818c616c06600af574be
+Original license/notice are preserved under parseq_ocr/_vendor/parseq/.
+The notebook workflow, data helpers, annotator and deployment integration are new additions.
+
+Includes selected WATERec/OpenOCR-WATERec model code under Apache License 2.0.
+Upstream: https://github.com/YesianRohn/OpenOCR-WATERec
+Pinned commit: d895bc57dade600923015267c87df2a40a3147b5
+License, modification notice and source provenance are preserved under
+parseq_ocr/_vendor/waterec/.
+
+The custom price reader derives from PaddlePaddle PP-OCRv6_medium_rec,
+distributed under Apache License 2.0. Source/model provenance and notices are
+preserved under parseq_ocr/_vendor/ppocr/. Its training-only auxiliary decoder
+uses the PARSeq code and initialization identified above. Model weights are
+downloaded separately and are not included in the source release.
+
+The opt-in WATERec GPU preprocessing includes a coefficient algorithm adapted
+from Pillow's libImaging/Resample.c and fixed-point CUDA resize/packing helpers.
+Pillow/PIL copyright and MIT-CMU license terms are preserved in
+parseq_ocr/_native/waterec/PILLOW_LICENSE. The coefficient C library and CUDA
+kernels compile locally; no compiled preprocessing binaries are bundled.

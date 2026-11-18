@@ -1,0 +1,7 @@
+{
+  "model_repository": "https://huggingface.co/PaddlePaddle/PP-OCRv6_medium_rec",
+  "model_revision": "e5a92bcbc5cc1b494628e458d267778f0704fd7c",
+  "license": "Apache-2.0",
+  "architecture": "https://github.com/PaddlePaddle/PaddleOCR",
+  "local_changes": "ASCIIcolumnselection,128heightpool,identityBNreconstruction,PARSeqauxtraining,CTC-onlydeployment"
+}

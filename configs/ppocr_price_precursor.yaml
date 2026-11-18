@@ -1,0 +1,31 @@
+# Optional new recipe, not a reproduction of historical weights/accuracy.
+family: ppocr_price
+recipe: selection_only_precursor_v1
+dataset_root: dataset_price
+output_dir: artifacts/ppocr_price_precursor
+pretrained_dir: weights/ppocr_precursor
+train_manifest: manifests/your_fit.jsonl
+validation_manifest: manifests/your_dev.jsonl
+height: 128
+width: 320
+epochs: 30
+batch_size: 16
+calibration_samples: 128
+calibration_batch_size: 32
+workers: 0
+cpu_threads: 2
+seed: 20261114
+learning_rate: 0.0001
+weight_decay: 0.00003
+recover_bn: true
+auxiliary: true
+refit: false
+normalization: none
+selection_metric: exact
+holdout_fraction: 0.15
+device: cuda
+precision: bf16
+
+# If reusing converted caches, bind their existing bytes explicitly:
+# expected_model_onnx_sha256: <64hex>
+# expected_trainable_onnx_sha256: <64hex>

@@ -1,0 +1,4 @@
+Custom price CTC reader derived from PaddlePaddle PP-OCRv6_medium_rec, Apache-2.0.
+Official model: https://huggingface.co/PaddlePaddle/PP-OCRv6_medium_rec
+Architecture: https://github.com/PaddlePaddle/PaddleOCR
+Training-only auxiliary decoder initialized from pinned PARSeq Tiny; existing PARSeq license/NOTICE applies. Auxiliary reader is discarded for CTC deployment. Conversion uses external paddle2onnx and onnx2torch packages under their own licenses. Runtime and recipe adapters are local additions. No weights, datasets or NVIDIA engines are bundled.

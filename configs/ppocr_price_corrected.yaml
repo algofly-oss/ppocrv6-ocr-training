@@ -1,0 +1,31 @@
+# Distinct optional recipe operations; NOT the measured104 weights/data.
+# Paths resolve relative to the repository, matching other PP configs.
+family: ppocr_price
+recipe: corrected_fixed_bn_v1
+dataset_root: dataset_price
+output_dir: artifacts/ppocr_price_corrected
+pretrained_dir: weights/ppocr_medium
+# REQUIRED user-supplied proper-fitting warm start. Never silently generic init.
+initial_checkpoint: weights/your_proper_fit_pp_medium.pt
+initial_checkpoint_sha256: '0000000000000000000000000000000000000000000000000000000000000000'
+initial_codec: ppocr_ascii96_v1
+# Optional ordered image_path/text JSONL, paths relative to each manifest.
+# train_manifest: manifests/your_fit.jsonl
+# validation_manifest: manifests/your_dev.jsonl
+height: 128
+width: 320
+epochs: 20
+batch_size: 16
+microbatch: 1
+seed: 20261114
+normalization: none
+selection_metric: exact
+# val is explicitly DEV for checkpoint selection, NOT an independent test.
+holdout_fraction: 0.15 # legacy loader compatibility; unused by this recipe
+recover_bn: true # reconstruct source BN, then freeze running buffers; no calibration
+auxiliary: false
+learning_rate: 0.0001
+weight_decay: 0.00003
+clip_norm: 5.0
+device: cuda
+precision: bf16
