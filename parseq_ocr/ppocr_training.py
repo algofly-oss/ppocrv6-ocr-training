@@ -227,7 +227,7 @@ def train(config, fit_rows=None, held_rows=None):
                 "refit": cfg.get("refit", True),
                 "selection_metric": "exact",
                     "selection_policy": EXACT_POLICY,
-                "initialization": ("fresh pinned official medium model for selection and fresh full refit; respective FIT-only BN calibration" if cfg.get("refit", True) else "fresh pinned official medium model for FIT-only selection; no full refit; DEV never gradient/calibration"),
+                "initialization": ("fresh pinned official recognition model for selection and fresh full refit; respective FIT-only BN calibration" if cfg.get("refit", True) else "fresh pinned official recognition model for FIT-only selection; no full refit; DEV never gradient/calibration"),
                 "historical_note": "Preset uses exactinternalholdout selection; historicalwinnerselected15. Current dataset/precision/environment mayselectdifferentepoch.",
             },
             indent=2,

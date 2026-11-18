@@ -1,0 +1,20 @@
+# Custom price reader derived from PP-OCRv6_small_rec, not an official preset.
+variant: small
+family: ppocr_price
+dataset_root: dataset_price
+output_dir: artifacts/ppocr_price_small
+pretrained_dir: weights/ppocr_small
+height: 128
+width: 320
+epochs: 15
+batch_size: 64
+holdout_fraction: 0.15
+seed: 20261114
+# Select the epoch on the training-only holdout.
+selection_metric: exact
+recover_bn: true
+auxiliary: false
+learning_rate: 0.0001
+weight_decay: 0.00003
+device: cuda
+precision: bf16

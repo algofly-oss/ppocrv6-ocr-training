@@ -17,6 +17,21 @@ FILES = {
 }
 
 
+VARIANTS = {
+    "medium": (REVISION, FILES),
+    "tiny": ("0736086f72f666350ebcdc0c3a504eeac89cdfad", {
+        "inference.json": "b5b14770c7dcf092781e92f4278a2ae5f95048f08b4b8a04140e88cb2745f147",
+        "inference.yml": "66170210bad538e83fff3c4a3867e547d6bf20b50d64b20347c4b913f3034ea1",
+        "inference.pdiparams": "bb2f8f54d1e25f28c71b6fa4fe23f5940e159cae27fbee96155c99f822156e57",
+    }),
+    "small": ("bd619643acac4b9650c040234da8d944476ee3f1", {
+        "inference.json": "f0bf53c853937a917affdd74467472167727f8ab0f0f7bded01c4a16c27e46e6",
+        "inference.yml": "ab078671bb49f06228eadccd34f1bb501e157f7a047095ffb943ba81512c77d1",
+        "inference.pdiparams": "406e1e689c9a7fbb04178007a3fe10cf852afe7bf8bb3bc6dbb9d532b13bd907",
+    }),
+}
+
+
 def sha(path):
     h = hashlib.sha256()
     with Path(path).open("rb") as f:
@@ -25,7 +40,7 @@ def sha(path):
     return h.hexdigest()
 
 
-def prepare_pretrained(folder):
+def prepare_pretrained(folder, variant="medium"):
     """Fetch three hash-verified data files and perform local deterministic conversion."""
     import onnx, torch
     from onnx import helper
@@ -33,12 +48,13 @@ def prepare_pretrained(folder):
 
     folder = Path(folder)
     folder.mkdir(parents=True, exist_ok=True)
-    for name, digest in FILES.items():
+    revision, files = VARIANTS[variant]
+    for name, digest in files.items():
         target = folder / name
         if not target.exists():
             partial = target.with_suffix(".partial")
             urllib.request.urlretrieve(
-                f"https://huggingface.co/PaddlePaddle/PP-OCRv6_medium_rec/resolve/{REVISION}/{name}",
+                f"https://huggingface.co/PaddlePaddle/PP-OCRv6_{variant}_rec/resolve/{revision}/{name}",
                 partial,
             )
             if sha(partial) != digest:
@@ -116,8 +132,9 @@ def prepare_pretrained(folder):
     (folder / "conversion.json").write_text(
         json.dumps(
             {
-                "upstream_revision": REVISION,
-                "official_files": FILES,
+                "variant": variant,
+                "upstream_revision": revision,
+                "official_files": files,
                 "onnx_sha256": sha(target),
                 "trainable_onnx_sha256": sha(trained),
             },
@@ -132,7 +149,7 @@ def create_model(config, prepare=True):
     from onnx2torch import convert
 
     folder = (
-        prepare_pretrained(config["pretrained_dir"])
+        prepare_pretrained(config["pretrained_dir"], config.get("variant", "medium"))
         if prepare
         else Path(config["pretrained_dir"])
     )

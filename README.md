@@ -12,6 +12,18 @@ python -m pip install -e '.[notebooks,ppocr]'
 
 On an NVIDIA CUDA host, add `ppocr-tensorrt` and enable `RUN_TENSORRT` in the notebook. The runtime builds an engine from the exported ONNX bundle on the target GPU.
 
+## Choose a recognition model
+
+Set `MODEL_VARIANT` in the first configuration cell of the [training notebook](notebooks/1_train_export_infer.ipynb) to `"tiny"`, `"small"`, or `"medium"` (default). Each variant has its own pinned pretrained files, checkpoints and export directory. Training takes cropped images with text labels. Set `RUN_TENSORRT = True` to export and build the selected model. The corrected-price and precursor research recipes use Medium.
+
+| Notebook setting | CLI training preset | Notebook input H×W |
+|---|---|---|
+| `tiny` | [Tiny](configs/ppocr_price_tiny.yaml) | 128×320 |
+| `small` | [Small](configs/ppocr_price_small.yaml) | 128×320 |
+| `medium` | [Medium](configs/ppocr_price.yaml) | 128×320 |
+
+These are the three upstream PP-OCRv6 recognition sizes. The notebook adapts the recognition head to its task vocabulary. [PaddleX model list](https://paddlepaddle.github.io/PaddleX/latest/en/module_usage/tutorials/ocr_modules/text_recognition.html)
+
 ## Compare the tested TensorRT profiles
 
 Input dimensions are **height × width in pixels**. In a video pipeline, pass the detected plate or price-tag crop to the recognizer. The camera frame, source crop, and resized OCR input can each have different dimensions. Fixed-size models use the dimensions shown in the table. WATERec preserves the crop aspect ratio approximately, aligns both sides to multiples of four, and uses 4×4-pixel patches.

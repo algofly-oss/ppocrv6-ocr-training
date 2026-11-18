@@ -108,7 +108,8 @@ def export_onnx(checkpoint, output):
         "input": "BGR OpenCVLINEAR normalized[-1,1]",
         "output": "CTCids; collapse repeats before removingblank0; strip outerwhitespace",
         "checkpoint_sha256": hashlib.sha256(Path(checkpoint).read_bytes()).hexdigest(),
-        "initialization": "Pinnedofficial PP-OCRv6_medium_rec; custom BN+ARtraining, ASCIIhead; ARdiscarded",
+        "variant": cfg.get("variant", "medium"),
+        "initialization": f"Pinned PP-OCRv6_{cfg.get('variant', 'medium')}_rec with task-specific CTC head",
     }
     (output / "metadata.json").write_text(json.dumps(metadata, indent=2))
     return output

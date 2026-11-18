@@ -57,7 +57,7 @@ def main():
     if a.command == "prepare":
         from .ppocr_models import prepare_pretrained
 
-        print(prepare_pretrained(cfg["pretrained_dir"]))
+        print(prepare_pretrained(cfg["pretrained_dir"], cfg.get("variant", "medium")))
     elif a.command == "train":
         if cfg.get("recipe") == "selection_only_precursor_v1":
             from .ppocr_precursor import train
